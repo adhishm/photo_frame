@@ -35,6 +35,8 @@ const padTopInput = document.getElementById('padTopInput');
 const padBottomInput = document.getElementById('padBottomInput');
 const explicitVertical = document.getElementById('explicitVertical');
 const verticalFields = document.getElementById('verticalFields');
+const linkHorizontalPadding = document.getElementById('linkHorizontalPadding');
+const linkVerticalPadding = document.getElementById('linkVerticalPadding');
 const bgColor = document.getElementById('bgColor');
 const qualityInput = document.getElementById('qualityInput');
 const qualityValue = document.getElementById('qualityValue');
@@ -74,10 +76,10 @@ function setFieldState() {
   } else {
     widthInput.setAttribute('readonly', 'readonly');
     heightInput.setAttribute('readonly', 'readonly');
-    padLeftInput.setAttribute('readonly', 'readonly');
-    padRightInput.setAttribute('readonly', 'readonly');
-    padTopInput.setAttribute('readonly', 'readonly');
-    padBottomInput.setAttribute('readonly', 'readonly');
+    padLeftInput.removeAttribute('readonly');
+    padRightInput.removeAttribute('readonly');
+    padTopInput.removeAttribute('readonly');
+    padBottomInput.removeAttribute('readonly');
   }
 }
 
@@ -201,6 +203,34 @@ function updatePresetState() {
   }
 }
 
+function handlePadLeftChange() {
+  if (linkHorizontalPadding.checked) {
+    padRightInput.value = padLeftInput.value;
+  }
+  renderPreview();
+}
+
+function handlePadRightChange() {
+  if (linkHorizontalPadding.checked) {
+    padLeftInput.value = padRightInput.value;
+  }
+  renderPreview();
+}
+
+function handlePadTopChange() {
+  if (linkVerticalPadding.checked) {
+    padBottomInput.value = padTopInput.value;
+  }
+  renderPreview();
+}
+
+function handlePadBottomChange() {
+  if (linkVerticalPadding.checked) {
+    padTopInput.value = padBottomInput.value;
+  }
+  renderPreview();
+}
+
 imageInput.addEventListener('change', handleFileChange);
 presetSelect.addEventListener('change', updatePresetState);
 explicitVertical.addEventListener('change', () => {
@@ -208,7 +238,23 @@ explicitVertical.addEventListener('change', () => {
   renderPreview();
 });
 qualityInput.addEventListener('input', updateQualityValue);
-[widthInput, heightInput, padLeftInput, padRightInput, padTopInput, padBottomInput, bgColor].forEach((element) => {
+padLeftInput.addEventListener('input', handlePadLeftChange);
+padRightInput.addEventListener('input', handlePadRightChange);
+padTopInput.addEventListener('input', handlePadTopChange);
+padBottomInput.addEventListener('input', handlePadBottomChange);
+linkHorizontalPadding.addEventListener('change', () => {
+  if (linkHorizontalPadding.checked) {
+    padRightInput.value = padLeftInput.value;
+  }
+  renderPreview();
+});
+linkVerticalPadding.addEventListener('change', () => {
+  if (linkVerticalPadding.checked) {
+    padBottomInput.value = padTopInput.value;
+  }
+  renderPreview();
+});
+[widthInput, heightInput, bgColor].forEach((element) => {
   element.addEventListener('input', () => {
     renderPreview();
   });
