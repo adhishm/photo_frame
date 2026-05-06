@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo Frame Web App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header>
+      <h1>Photo Frame</h1>
+      <p>Upload a photo, choose a frame preset, and download a bordered image ready for social sharing.</p>
+    </header>
+
+    <main>
+      <section class="panel form-panel">
+        <h2>Input & Settings</h2>
+        <label>
+          Image file
+          <input id="imageInput" type="file" accept="image/*">
+        </label>
+
+        <div class="field-row">
+          <label>
+            Output type
+            <select id="presetSelect">
+              <option value="square">Instagram square 1080×1080</option>
+              <option value="portrait">Instagram portrait 1080×1350</option>
+              <option value="landscape">Instagram landscape 1080×566</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <label>
+            Background color
+            <input id="bgColor" type="color" value="#ffffff">
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label>
+            Width
+            <input id="widthInput" type="number" min="1" value="1080">
+          </label>
+          <label>
+            Height
+            <input id="heightInput" type="number" min="1" value="1080">
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label>
+            Left padding
+            <input id="padLeftInput" type="number" min="0" value="40">
+          </label>
+          <label>
+            Right padding
+            <input id="padRightInput" type="number" min="0" value="40">
+          </label>
+        </div>
+
+        <fieldset>
+          <legend>Vertical placement</legend>
+          <label class="checkbox-inline">
+            <input id="explicitVertical" type="checkbox">
+            Use explicit top/bottom padding
+          </label>
+
+          <div class="field-row vertical-fields hide" id="verticalFields">
+            <label>
+              Top padding
+              <input id="padTopInput" type="number" min="0" value="40">
+            </label>
+            <label>
+              Bottom padding
+              <input id="padBottomInput" type="number" min="0" value="40">
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field-row">
+          <label>
+            JPEG quality
+            <input id="qualityInput" type="range" min="50" max="100" value="95">
+          </label>
+          <span id="qualityValue">95</span>
+        </div>
+
+        <div class="button-row">
+          <button id="renderButton" type="button" disabled>Render preview</button>
+          <button id="downloadButton" type="button" disabled>Download image</button>
+        </div>
+
+        <div class="hint">
+          <p>Use the preview to check how your image is framed. The download button exports a JPEG with the selected quality.</p>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <h2>Preview</h2>
+        <div class="canvas-shell">
+          <canvas id="previewCanvas" width="1080" height="1080"></canvas>
+        </div>
+        <div class="info" id="infoText">Upload an image to start.</div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
