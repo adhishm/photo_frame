@@ -45,9 +45,16 @@ const downloadButton = document.getElementById('downloadButton');
 const previewCanvas = document.getElementById('previewCanvas');
 const infoText = document.getElementById('infoText');
 
+// New metadata UI controls
+const preserveExifInput = document.getElementById('preserveExif');
+const preserveIccInput = document.getElementById('preserveIcc');
+const autoOrientInput = document.getElementById('autoOrient');
+const suffixInput = document.getElementById('suffixInput');
+
 const ctx = previewCanvas.getContext('2d');
 let loadedImage = null;
 let lastBlobUrl = null;
+let originalFileName = null;
 
 function applyPreset(presetName) {
   const preset = presets[presetName];
@@ -102,10 +109,21 @@ function parseIntOrFallback(value, fallback = 0) {
 }
 
 function renderPreview() {
-  if (!loadedImage) return;
-
+  // Always update canvas size and background to reflect the current width/height
   const finalW = clampNumber(parseIntOrFallback(widthInput.value), 1, 10000);
   const finalH = clampNumber(parseIntOrFallback(heightInput.value), 1, 10000);
+
+  previewCanvas.width = finalW;
+  previewCanvas.height = finalH;
+
+  ctx.fillStyle = bgColor.value;
+  ctx.fillRect(0, 0, finalW, finalH);
+
+  if (!loadedImage) {
+    infoText.textContent = 'Upload an image to start.';
+    return;
+  }
+
   const padLeft = Math.max(0, parseIntOrFallback(padLeftInput.value));
   const padRight = Math.max(0, parseIntOrFallback(padRightInput.value));
   const padTop = explicitVertical.checked ? Math.max(0, parseIntOrFallback(padTopInput.value)) : 0;
@@ -123,15 +141,10 @@ function renderPreview() {
 
   const availableW = finalW - padLeft - padRight;
   const availableH = explicitVertical.checked ? finalH - padTop - padBottom : finalH;
+
   const scale = Math.min(availableW / loadedImage.width, availableH / loadedImage.height);
   const newW = Math.max(1, Math.round(loadedImage.width * scale));
   const newH = Math.max(1, Math.round(loadedImage.height * scale));
-
-  previewCanvas.width = finalW;
-  previewCanvas.height = finalH;
-
-  ctx.fillStyle = bgColor.value;
-  ctx.fillRect(0, 0, finalW, finalH);
 
   const xOffset = padLeft + Math.floor((availableW - newW) / 2);
   const yOffset = explicitVertical.checked
@@ -147,10 +160,13 @@ function handleFileChange(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) {
     loadedImage = null;
+    originalFileName = null;
     enableActions(false);
-    infoText.textContent = 'Upload an image to start.';
+    renderPreview();
     return;
   }
+
+  originalFileName = file.name || 'photo';
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -187,9 +203,24 @@ function downloadImage() {
 
     const anchor = document.createElement('a');
     anchor.href = lastBlobUrl;
-    anchor.download = 'photo_frame.jpg';
+
+    // Use original filename + suffix + extension for download
+    const suffix = suffixInput.value || '-border';
+    let base = originalFileName || 'photo';
+    // split extension
+    const m = base.match(/^(.*)(\.[^.]*)$/);
+    let nameBase, ext;
+    if (m) {
+      nameBase = m[1];
+      ext = m[2];
+    } else {
+      nameBase = base;
+      ext = '.jpg';
+    }
+    anchor.download = `${nameBase}${suffix}${ext}`;
+
     anchor.click();
-    infoText.textContent = 'Download started.';
+    infoText.textContent = 'Download started. Note: browser-exported JPEGs do not preserve EXIF/ICC — use the CLI to preserve metadata.';
   }, 'image/jpeg', quality);
 }
 
@@ -266,4 +297,5 @@ applyPreset('portrait');
 setFieldState();
 setVerticalFields();
 updateQualityValue();
+renderPreview();
 enableActions(false);

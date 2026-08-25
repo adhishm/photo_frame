@@ -37,6 +37,31 @@
           </label>
         </div>
 
+        <fieldset>
+          <legend>Metadata & filename</legend>
+          <div class="field-row">
+            <label class="checkbox-inline">
+              <input id="preserveExif" type="checkbox" checked>
+              Preserve EXIF / tags
+            </label>
+            <label class="checkbox-inline">
+              <input id="preserveIcc" type="checkbox" checked>
+              Preserve ICC profile
+            </label>
+            <label class="checkbox-inline">
+              <input id="autoOrient" type="checkbox" checked>
+              Auto-orient (use EXIF Orientation)
+            </label>
+          </div>
+          <div class="field-row">
+            <label>
+              Output filename suffix
+              <input id="suffixInput" type="text" value="-border">
+            </label>
+            <p class="hint">Note: Browser-exported images from the preview do not retain EXIF/ICC. Use the CLI (add_border.py) to produce metadata-preserving output.</p>
+          </div>
+        </fieldset>
+
         <div class="field-row">
           <label>
             Width
