@@ -26,7 +26,7 @@
             Output type
             <select id="presetSelect">
               <option value="square">Instagram square 1080×1080</option>
-              <option value="portrait">Instagram portrait 1080×1350</option>
+              <option value="portrait" selected>Instagram portrait 1080×1350</option>
               <option value="landscape">Instagram landscape 1080×566</option>
               <option value="custom">Custom</option>
             </select>
@@ -44,7 +44,7 @@
           </label>
           <label>
             Height
-            <input id="heightInput" type="number" min="1" value="1080">
+            <input id="heightInput" type="number" min="1" value="1350">
           </label>
         </div>
 
@@ -107,7 +107,7 @@
       <section class="panel preview-panel">
         <h2>Preview</h2>
         <div class="canvas-shell">
-          <canvas id="previewCanvas" width="1080" height="1080"></canvas>
+          <canvas id="previewCanvas" width="1080" height="1350"></canvas>
         </div>
         <div class="info" id="infoText">Upload an image to start.</div>
       </section>

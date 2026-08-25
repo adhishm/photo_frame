@@ -262,7 +262,7 @@ linkVerticalPadding.addEventListener('change', () => {
 renderButton.addEventListener('click', renderPreview);
 downloadButton.addEventListener('click', downloadImage);
 
-applyPreset('square');
+applyPreset('portrait');
 setFieldState();
 setVerticalFields();
 updateQualityValue();
