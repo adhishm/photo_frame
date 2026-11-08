@@ -15,108 +15,177 @@
 
     <main>
       <section class="panel form-panel">
-        <h2>Input & Settings</h2>
+        <h2>Input &amp; Settings</h2>
+
+        <div class="mode-tabs" role="tablist" aria-label="Image layout mode">
+          <button id="singleTab" class="mode-tab active" type="button" role="tab" aria-selected="true" aria-controls="singleModePanel" data-mode="single">Single image</button>
+          <button id="tilingTab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="tilingModePanel" data-mode="tiling">Tiling</button>
+        </div>
+
         <label>
-          Image file
-          <input id="imageInput" type="file" accept="image/*">
+          Background color
+          <input id="bgColor" type="color" value="#ffffff">
         </label>
 
-        <div class="field-row">
+        <section id="singleModePanel" class="mode-panel" role="tabpanel" aria-labelledby="singleTab">
           <label>
-            Output type
-            <select id="presetSelect">
-              <option value="square">Instagram square 1080×1080</option>
-              <option value="portrait" selected>Instagram portrait 1080×1350</option>
-              <option value="landscape">Instagram landscape 1080×566</option>
-              <option value="custom">Custom</option>
-            </select>
+            Image file
+            <input id="imageInput" type="file" accept="image/*">
           </label>
-          <label>
-            Background color
-            <input id="bgColor" type="color" value="#ffffff">
-          </label>
-        </div>
 
-        <fieldset>
-          <legend>Metadata & filename</legend>
-          <div class="field-row">
-            <label class="checkbox-inline">
-              <input id="preserveExif" type="checkbox" checked>
-              Preserve EXIF / tags
-            </label>
-            <label class="checkbox-inline">
-              <input id="preserveIcc" type="checkbox" checked>
-              Preserve ICC profile
-            </label>
-            <label class="checkbox-inline">
-              <input id="autoOrient" type="checkbox" checked>
-              Auto-orient (use EXIF Orientation)
-            </label>
-          </div>
           <div class="field-row">
             <label>
-              Output filename suffix
-              <input id="suffixInput" type="text" value="-border">
+              Output type
+              <select id="presetSelect">
+                <option value="square">Instagram square 1080×1080</option>
+                <option value="portrait" selected>Instagram portrait 1080×1350</option>
+                <option value="landscape">Instagram landscape 1080×566</option>
+                <option value="custom">Custom</option>
+              </select>
             </label>
-            <p class="hint">Note: Browser-exported images from the preview do not retain EXIF/ICC. Use the CLI (add_border.py) to produce metadata-preserving output.</p>
           </div>
-        </fieldset>
 
-        <div class="field-row">
-          <label>
-            Width
-            <input id="widthInput" type="number" min="1" value="1080">
-          </label>
-          <label>
-            Height
-            <input id="heightInput" type="number" min="1" value="1350">
-          </label>
-        </div>
+          <fieldset>
+            <legend>Metadata &amp; filename</legend>
+            <div class="field-row">
+              <label class="checkbox-inline">
+                <input id="preserveExif" type="checkbox" checked>
+                Preserve EXIF / tags
+              </label>
+              <label class="checkbox-inline">
+                <input id="preserveIcc" type="checkbox" checked>
+                Preserve ICC profile
+              </label>
+              <label class="checkbox-inline">
+                <input id="autoOrient" type="checkbox" checked>
+                Auto-orient (use EXIF Orientation)
+              </label>
+            </div>
+            <div class="field-row">
+              <label>
+                Output filename suffix
+                <input id="suffixInput" type="text" value="-border">
+              </label>
+              <p class="hint">Browser-exported images do not retain EXIF/ICC. Use the CLI to preserve metadata.</p>
+            </div>
+          </fieldset>
 
-        <div class="field-row">
-          <label>
-            Left padding
-            <input id="padLeftInput" type="number" min="0" value="40">
-          </label>
-          <label>
-            Right padding
-            <input id="padRightInput" type="number" min="0" value="40">
-          </label>
-          <label class="checkbox-inline">
-            <input id="linkHorizontalPadding" type="checkbox" checked>
-            Link L/R
-          </label>
-        </div>
-
-        <fieldset>
-          <legend>Vertical placement</legend>
-          <label class="checkbox-inline">
-            <input id="explicitVertical" type="checkbox">
-            Use explicit top/bottom padding
-          </label>
-
-          <div class="field-row vertical-fields hide" id="verticalFields">
+          <div class="field-row">
             <label>
-              Top padding
-              <input id="padTopInput" type="number" min="0" value="40">
+              Width
+              <input id="widthInput" type="number" min="1" max="10000" value="1080">
             </label>
             <label>
-              Bottom padding
-              <input id="padBottomInput" type="number" min="0" value="40">
+              Height
+              <input id="heightInput" type="number" min="1" max="10000" value="1350">
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label>
+              Left padding
+              <input id="padLeftInput" type="number" min="0" value="40">
+            </label>
+            <label>
+              Right padding
+              <input id="padRightInput" type="number" min="0" value="40">
             </label>
             <label class="checkbox-inline">
-              <input id="linkVerticalPadding" type="checkbox" checked>
-              Link T/B
+              <input id="linkHorizontalPadding" type="checkbox" checked>
+              Link L/R
             </label>
           </div>
-        </fieldset>
 
-        <div class="field-row">
+          <fieldset>
+            <legend>Vertical placement</legend>
+            <label class="checkbox-inline">
+              <input id="explicitVertical" type="checkbox">
+              Use explicit top/bottom padding
+            </label>
+
+            <div class="field-row vertical-fields hide" id="verticalFields">
+              <label>
+                Top padding
+                <input id="padTopInput" type="number" min="0" value="40">
+              </label>
+              <label>
+                Bottom padding
+                <input id="padBottomInput" type="number" min="0" value="40">
+              </label>
+              <label class="checkbox-inline">
+                <input id="linkVerticalPadding" type="checkbox" checked>
+                Link T/B
+              </label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section id="tilingModePanel" class="mode-panel hide" role="tabpanel" aria-labelledby="tilingTab" hidden>
+          <p class="mode-description">Choose a grid and drop an image into every cell. Each image is fitted without cropping or distortion.</p>
+
+          <div class="field-row">
+            <label>
+              Rows
+              <input id="rowsInput" type="number" min="1" max="6" value="2">
+            </label>
+            <label>
+              Columns
+              <input id="columnsInput" type="number" min="1" max="6" value="2">
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label>
+              Output width
+              <input id="tilingWidthInput" type="number" min="1" max="10000" value="1080">
+            </label>
+            <label>
+              Output height
+              <input id="tilingHeightInput" type="number" min="1" max="10000" value="1350">
+            </label>
+          </div>
+
+          <fieldset>
+            <legend>Margins &amp; spacing</legend>
+            <div class="field-row">
+              <label>
+                Left margin
+                <input id="tilingPadLeftInput" type="number" min="0" value="30">
+              </label>
+              <label>
+                Right margin
+                <input id="tilingPadRightInput" type="number" min="0" value="30">
+              </label>
+              <label>
+                Top margin
+                <input id="tilingPadTopInput" type="number" min="0" value="30">
+              </label>
+              <label>
+                Bottom margin
+                <input id="tilingPadBottomInput" type="number" min="0" value="30">
+              </label>
+              <label>
+                Space between cells
+                <input id="tilingGapInput" type="number" min="0" value="12">
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="checkbox-inline">
+            <input id="instagramCompatibleInput" type="checkbox">
+            Instagram portrait size (1080×1350, 4:5)
+          </label>
+          <p class="hint instagram-hint">When enabled, the output uses Instagram's 4:5 portrait feed ratio; the selected grid and margins are retained.</p>
+
+          <div id="tilingGrid" class="tiling-grid" aria-live="polite"></div>
+        </section>
+
+        <div class="field-row quality-row">
           <label>
             JPEG quality
             <input id="qualityInput" type="range" min="50" max="100" value="95">
           </label>
-          <span id="qualityValue">95</span>
+          <output id="qualityValue" for="qualityInput">95</output>
         </div>
 
         <div class="button-row">
@@ -125,7 +194,7 @@
         </div>
 
         <div class="hint">
-          <p>Use the preview to check how your image is framed. The download button exports a JPEG with the selected quality.</p>
+          <p>Preview your layout before downloading the final JPEG.</p>
         </div>
       </section>
 
@@ -134,7 +203,7 @@
         <div class="canvas-shell">
           <canvas id="previewCanvas" width="1080" height="1350"></canvas>
         </div>
-        <div class="info" id="infoText">Upload an image to start.</div>
+        <div class="info" id="infoText" role="status" aria-live="polite">Upload an image to start.</div>
       </section>
     </main>
   </div>
